@@ -12,9 +12,17 @@ function App() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
-    let temp = result.split(",");
-    setPrice(temp[0]);
-    setProduct(temp[1]);
+    try {
+      let temp = result.split(",");
+      if (temp.length === 2) {
+        setPrice(temp[0]);
+        setProduct(temp[1]);
+      } else {
+        throw new Error("Invalid QR code format");
+      }
+    } catch (error) {
+      console.error("Error decoding QR code:", error);
+    }
   }, [result]);
 
   // handle payment
