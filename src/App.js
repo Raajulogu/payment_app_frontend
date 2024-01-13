@@ -87,7 +87,10 @@ function App() {
           />
         </div>
       )}
+      <br/>
       {result && <div>{result}</div>}
+      {price && <div>{price}</div>}
+      {product && <div>{product}</div>}
       <Box sx={{ width: 500 }}>
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
