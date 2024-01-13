@@ -11,7 +11,7 @@ function App() {
   },[result])
   return (
     <div className="App">
-      {!result ? (
+      {result ? (
         <div className="payment-page">
 
 
