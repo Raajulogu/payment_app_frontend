@@ -37,7 +37,7 @@ function App() {
     <div className="App">
       {result ? (
         <div className="payment-page">
-          {show ? (
+          {show && price && product ? (
             <div className="pin-card">
               <TextField
                 id="pin"
