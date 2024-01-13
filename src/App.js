@@ -5,8 +5,8 @@ import { Box, Button, Snackbar, TextField } from "@mui/material";
 
 function App() {
   const [result, setResult] = useState("");
-  const [price, setPrice] = useState("100");
-  const [product, setProduct] = useState("bag");
+  const [price, setPrice] = useState("");
+  const [product, setProduct] = useState("");
   const [pin, setPin] = useState("");
   const [show, setShow] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -35,7 +35,7 @@ function App() {
 
   return (
     <div className="App">
-      {!result ? (
+      {result ? (
         <div className="payment-page">
           {show ? (
             <div className="pin-card">
