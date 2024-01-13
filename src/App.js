@@ -6,6 +6,7 @@ function App() {
   let [result,setResult]=useState("")
   return (
     <div className="App">
+    <h1>Hi</h1>
        <QrScanner
           onDecode={(result) => setResult(result)}
           onError={(error) => console.log(error?.message)}
