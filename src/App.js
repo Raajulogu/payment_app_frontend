@@ -27,18 +27,18 @@ function App() {
 
   // handle payment
   function handlePayment() {
-    if(pin.length<4 ){
+    if (pin.length < 4) {
       alert("Please Enter a valid 4 Digit PIN");
-      return 0
+      return 0;
     }
     setSnackbarOpen(true);
-    setPin("")
-    setResult("")
+    setPin("");
+    setResult("");
   }
 
   // Snackbar
   const handleCloseSnackbar = () => {
-    setSnackbarOpen(false); 
+    setSnackbarOpen(false);
   };
 
   return (
@@ -70,14 +70,16 @@ function App() {
                 disabled
                 id="amount"
                 label="Amount"
-                defaultValue={price}
+                value={price}
+                InputProps={{ readOnly: true }}
               />
               <br />
               <TextField
                 disabled
                 id="product"
                 label="Product"
-                defaultValue={product}
+                value={product}
+                InputProps={{ readOnly: true }}
               />
               <br />
               <Button onClick={() => setShow(!show)} variant="contained">
@@ -95,13 +97,13 @@ function App() {
           />
         </div>
       )}
-      <br/>
+      <br />
       {result && <div>{result}</div>}
       {price && <div>{price}</div>}
       {product && <div>{product}</div>}
       <Box sx={{ width: 500 }}>
         <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={snackbarOpen}
           onClose={handleCloseSnackbar}
           message="Payment Completed Successfully"
