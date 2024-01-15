@@ -14,6 +14,7 @@ function App() {
   useEffect(() => {
     try {
       let temp = result.split(",");
+      console.log(result)
       if (temp.length === 2) {
         setPrice(temp[0]);
         // setProduct(temp[1]);
