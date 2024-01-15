@@ -6,7 +6,7 @@ import { Box, Button, Snackbar, TextField } from "@mui/material";
 function App() {
   const [result, setResult] = useState("");
   const [price, setPrice] = useState("");
-  const [product, setProduct] = useState("");
+  // const [product, setProduct] = useState("");
   const [pin, setPin] = useState("");
   const [show, setShow] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -16,7 +16,7 @@ function App() {
       let temp = result.split(",");
       if (temp.length === 2) {
         setPrice(temp[0]);
-        setProduct(temp[1]);
+        // setProduct(temp[1]);
       } else {
         throw new Error("Invalid QR code format");
       }
@@ -45,7 +45,7 @@ function App() {
     <div className="App">
       {result ? (
         <div className="payment-page">
-          {show && price && product ? (
+          {show && price ? (
             <div className="pin-card">
               <TextField
                 id="pin"
@@ -73,14 +73,14 @@ function App() {
                 value={price}
                 InputProps={{ readOnly: true }}
               />
-              <br />
+              {/* <br />
               <TextField
                 disabled
                 id="product"
                 label="Product"
                 value={product}
                 InputProps={{ readOnly: true }}
-              />
+              /> */}
               <br />
               <Button onClick={() => setShow(!show)} variant="contained">
                 Pay
@@ -99,12 +99,10 @@ function App() {
       )}
       <br />
       <p>Testing 1</p>
-      {result &&  <p>{result.join("")}</p>}
-      {price && product && <div>
+      {price  && <div>
         <p>Testing</p>
         <p>{price}</p>
-        <p>{product}</p>
-        <p>{result.join("")}</p>
+        {/* <p>{product}</p> */}
         </div>}
       <Box sx={{ width: 500 }}>
         <Snackbar
