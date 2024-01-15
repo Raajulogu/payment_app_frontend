@@ -99,8 +99,10 @@ function App() {
       )}
       <br />
       {price && product && <div>
+        <p>Testing</p>
         <p>{price}</p>
         <p>{product}</p>
+        <p>{result.join("")}</p>
         </div>}
       <Box sx={{ width: 500 }}>
         <Snackbar
