@@ -98,6 +98,7 @@ function App() {
         </div>
       )}
       <br />
+      <p>Testing 1</p>
       {price && product && <div>
         <p>Testing</p>
         <p>{price}</p>
