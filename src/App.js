@@ -98,6 +98,10 @@ function App() {
         </div>
       )}
       <br />
+      {price && product && <div>
+        <p>{price}</p>
+        <p>{product}</p>
+        </div>}
       <Box sx={{ width: 500 }}>
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
