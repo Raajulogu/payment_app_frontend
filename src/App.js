@@ -99,6 +99,7 @@ function App() {
       )}
       <br />
       <p>Testing 1</p>
+      {result &&  <p>{result.join("")}</p>}
       {price && product && <div>
         <p>Testing</p>
         <p>{price}</p>
