@@ -66,6 +66,7 @@ function App() {
             </div>
           ) : (
             <div className="payment-card">
+              <h4>Click Pay to proceed payment</h4>
               <TextField
                 disabled
                 id="amount"
@@ -89,7 +90,7 @@ function App() {
           )}
         </div>
       ) : (
-        <div>
+        <div className="scanner">
           <h1>Scan QR code here</h1>
           <QrScanner
             onDecode={(result) => setResult(result)}
