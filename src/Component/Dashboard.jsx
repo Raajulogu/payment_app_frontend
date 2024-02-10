@@ -11,6 +11,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import HistoryIcon from "@mui/icons-material/History";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CameraFrontIcon from '@mui/icons-material/CameraFront';
 
 //Backend URL
 const api_url = asserts.backend_url;
@@ -81,11 +82,16 @@ function Dashboard() {
   }, []);
 
   // handle payment
-  function handlePayment() {
+  async function handlePayment() {
     if (pin.length < 4) {
       alert("Please Enter a valid 4 Digit PIN");
       return 0;
     }
+    let data={
+      amount:price,
+      details:product
+    }
+    let response = await axios.get(`${api_url}/user/make-payment`, data);
     setSnackbarOpen(true);
     setPin("");
     setResult("");
@@ -106,7 +112,7 @@ function Dashboard() {
           <div className="main-page">
             <span className="pay-types">
               <QrCodeScannerIcon onClick={() => setScan(true)} />
-              <h4>Scan</h4>
+              <h4>Scan any QR Code</h4>
             </span>
             <span className="pay-types">
               <PhoneAndroidIcon />
@@ -114,9 +120,12 @@ function Dashboard() {
             </span>
             <span className="pay-types">
               <AccountBalanceIcon />
-              <h4>Pay to Account</h4>
+              <h4>Bank transfer</h4>
             </span>
-            <br />
+            <span className="pay-types">
+              <CameraFrontIcon />
+              <h4>Pay Self</h4>
+            </span>
             <span className="pay-types">
               <AccountBalanceWalletIcon />
               <h4>View balance</h4>
