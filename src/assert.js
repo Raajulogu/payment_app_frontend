@@ -1,5 +1,5 @@
 let asserts = {
-  backend_url: "https://vercel.com/raajulogu/qr-code-app-backend/api",
+  backend_url: "https://qr-code-app-backend.vercel.app/api",
 };
 
 export default asserts;
