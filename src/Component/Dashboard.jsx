@@ -5,6 +5,12 @@ import { Box, Button, Snackbar, TextField } from "@mui/material";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import asserts from "../assert";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
+import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import HistoryIcon from "@mui/icons-material/History";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 //Backend URL
 const api_url = asserts.backend_url;
@@ -17,9 +23,10 @@ function Dashboard() {
   const [pin, setPin] = useState("");
   const [show, setShow] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [isPin, setIsPin] = useState(false)
+  const [isPin, setIsPin] = useState(false);
+  const [scan, setScan] = useState(false);
 
-    //Render on result change
+  //Render on result change
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (!token) {
@@ -30,7 +37,7 @@ function Dashboard() {
       if (temp.length > 1) {
         setPrice(temp[0]);
         setProduct(temp[1]);
-      } else {
+      } else if (result) {
         throw new Error("Invalid QR code format");
       }
     } catch (error) {
@@ -39,19 +46,20 @@ function Dashboard() {
   }, [result]);
 
   //Firrst Render
-  useEffect(async ()=>{
+  useEffect(() => {
     let token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
     }
-    // let response = await axios.get(
-    //     `${api_url}/user/get-user`,{
-    //         headers: {
-    //             'x-auth': token,
-    //           },
-    //     }
-        
-    //   );
+    async function fetchData() {
+      let response = await axios.get(`${api_url}/user/get-user`, {
+        headers: {
+          "x-auth": token,
+        },
+      });
+      console.log(response);
+    }
+    fetchData();
 
     // Parse URL parameters
     const params = new URLSearchParams(window.location.search);
@@ -62,18 +70,14 @@ function Dashboard() {
     const user = params.get("user");
     const app = params.get("app");
 
-    if(name && price && user && app){
-      setResult(`${price}/${name}`)
+    if (name && price && user && app) {
+      setResult(`${price}/${name}`);
+      // Now you can use the retrieved data as needed
+      console.log("Product Name:", name);
+      console.log("Price:", price);
+      console.log("User:", user);
+      console.log("App:", app);
     }
-    // Now you can use the retrieved data as needed
-    console.log("Product Name:", name);
-    console.log("Price:", price);
-    console.log("User:", user);
-    console.log("App:", app);
-  },[])
-
-  useEffect(() => {
-    
   }, []);
 
   // handle payment
@@ -93,31 +97,74 @@ function Dashboard() {
   };
 
   return (
-    <div className="Home">
-        <div className="">
+    <div className="container">
+      <div className="nav">
+        <h1>Smart Pay</h1>
+      </div>
+      <div className="Home">
+        {!result && !scan && (
+          <div className="main-page">
+            <span className="pay-types">
+              <QrCodeScannerIcon onClick={() => setScan(true)} />
+              <h4>Scan</h4>
+            </span>
+            <span className="pay-types">
+              <PhoneAndroidIcon />
+              <h4>Pay to Number</h4>
+            </span>
+            <span className="pay-types">
+              <AccountBalanceIcon />
+              <h4>Pay to Account</h4>
+            </span>
+            <br />
+            <span className="pay-types">
+              <AccountBalanceWalletIcon />
+              <h4>View balance</h4>
+            </span>
+            <span className="pay-types">
+              <HistoryIcon />
+              <h4>View History</h4>
+            </span>
+          </div>
+        )}
 
-        </div>
+        {result && !scan && (
+          <div className="payment-page">
+            {show && price && product ? (
+              <PinCard
+                pin={pin}
+                setPin={setPin}
+                handlePayment={handlePayment}
+              />
+            ) : (
+              <PaymentDetail
+                show={show}
+                setShow={setShow}
+                price={price}
+                product={product}
+              />
+            )}
+          </div>
+        )}
 
-      {result ? (
-        <div className="payment-page">
-          {show && price && product ? (
-            <PinCard pin={pin} setPin={setPin} handlePayment={handlePayment}/>
-          ) : (
-            <PaymentDetail show={show} setShow={setShow} price={price} product={product} />
-          )}
-        </div>
-      ) : (
-        <Scanner setResult={setResult} />
-      )} 
-      <br />
-      <Box sx={{ width: 500 }}>
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={snackbarOpen}
-          onClose={handleCloseSnackbar}
-          message="Payment Completed Successfully"
-        />
-      </Box>
+        {!result && scan && (
+          <div className="scanner-container">
+            <span className="back-arrow">
+              <ArrowBackIcon onClick={() => setScan(false)} />
+            </span>
+            <Scanner setResult={setResult} />
+          </div>
+        )}
+        <br />
+        <Box sx={{ width: 500 }}>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={snackbarOpen}
+            onClose={handleCloseSnackbar}
+            message="Payment Completed Successfully"
+          />
+        </Box>
+      </div>
     </div>
   );
 }
@@ -134,7 +181,7 @@ function Scanner({ setResult }) {
   );
 }
 
-function PaymentDetail({ show,setShow, price, product }) {
+function PaymentDetail({ show, setShow, price, product }) {
   return (
     <div className="payment-card">
       <h4>Click Pay to proceed payment</h4>
@@ -161,7 +208,7 @@ function PaymentDetail({ show,setShow, price, product }) {
   );
 }
 
-function PinCard({ pin, setPin,handlePayment }) {
+function PinCard({ pin, setPin, handlePayment }) {
   return (
     <div className="pin-card">
       <TextField
