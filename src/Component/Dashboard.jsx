@@ -41,6 +41,7 @@ function Dashboard() {
       } else if (result) {
         throw new Error("Invalid QR code format");
       }
+      setScan(false)
     } catch (error) {
       console.error("Error decoding QR code:", error);
     }
@@ -51,6 +52,7 @@ function Dashboard() {
     let token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
+      return 0;
     }
     async function fetchData() {
       let response = await axios.get(`${api_url}/user/get-user`, {
