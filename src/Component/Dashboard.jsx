@@ -11,7 +11,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import HistoryIcon from "@mui/icons-material/History";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import CameraFrontIcon from '@mui/icons-material/CameraFront';
+import CameraFrontIcon from "@mui/icons-material/CameraFront";
 
 //Backend URL
 const api_url = asserts.backend_url;
@@ -87,10 +87,10 @@ function Dashboard() {
       alert("Please Enter a valid 4 Digit PIN");
       return 0;
     }
-    let data={
-      amount:price,
-      details:product
-    }
+    let data = {
+      amount: price,
+      details: product,
+    };
     let response = await axios.get(`${api_url}/user/make-payment`, data);
     setSnackbarOpen(true);
     setPin("");
